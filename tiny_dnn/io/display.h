@@ -1,9 +1,16 @@
+/*
+    Copyright (c) 2013, Taiga Nomi and the respective contributors
+    All rights reserved.
+
+    Use of this source code is governed by a BSD-style license that can be found
+    in the LICENSE file.
+*/
+
 // addapted from boost progress.hpp, made c++11 only //
 
-#ifndef PROGRESS_H
-#define PROGRESS_H
+#pragma once
 
-#include <chrono>
+#include <chrono>    // for high_resolution_clock, NOLINT
 #include <iostream>  // for ostream, cout, etc
 #include <string>    // for string
 
@@ -103,5 +110,3 @@ class progress_display {
 };
 
 }  // namespace tiny_dnn
-
-#endif

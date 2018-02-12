@@ -16,25 +16,27 @@ endif()
 add_executable(benchmarks_all benchmarks/main.cpp ${tiny_dnn_headers})
 target_link_libraries(benchmarks_all
     ${project_library_target_name} ${REQUIRED_LIBRARIES})
+cotire(benchmarks_all)
 
 if(USE_SERIALIZER)
 
-add_executable(example_mnist_train mnist/train.cpp ${tiny_dnn_headers})
-target_link_libraries(example_mnist_train
-    ${project_library_target_name} ${REQUIRED_LIBRARIES})
+    add_executable(example_mnist_train mnist/train.cpp ${tiny_dnn_headers})
+    target_link_libraries(example_mnist_train
+        ${project_library_target_name} ${REQUIRED_LIBRARIES})
 
-add_executable(example_mnist_test mnist/test.cpp ${tiny_dnn_headers})
-target_link_libraries(example_mnist_test
-    ${project_library_target_name} ${REQUIRED_LIBRARIES})
+    add_executable(example_mnist_test mnist/test.cpp ${tiny_dnn_headers})
+    target_link_libraries(example_mnist_test
+        ${project_library_target_name} ${REQUIRED_LIBRARIES})
 
-add_executable(example_mnist_quantized_train mnist/quantized.cpp ${tiny_dnn_headers})
-target_link_libraries(example_mnist_quantized_train
-    ${project_library_target_name} ${REQUIRED_LIBRARIES})
+    add_executable(example_mnist_quantized_train mnist/quantized.cpp ${tiny_dnn_headers})
+    target_link_libraries(example_mnist_quantized_train
+        ${project_library_target_name} ${REQUIRED_LIBRARIES})
 
-add_executable(example_deconv_train deconv/train.cpp ${tiny_dnn_headers})
-target_link_libraries(example_deconv_train
-    ${project_library_target_name} ${REQUIRED_LIBRARIES})
+    add_executable(example_deconv_train deconv/train.cpp ${tiny_dnn_headers})
+    target_link_libraries(example_deconv_train
+        ${project_library_target_name} ${REQUIRED_LIBRARIES})
 
+    cotire(example_mnist_train example_mnist_test example_mnist_quantized_train example_deconv_train)
 endif()
 
 add_executable(example_deconv_visual deconv/visual.cpp ${tiny_dnn_headers})
@@ -49,6 +51,20 @@ add_executable(example_cifar_test cifar10/test.cpp ${tiny_dnn_headers})
 target_link_libraries(example_cifar_test
     ${project_library_target_name} ${REQUIRED_LIBRARIES})
 
+add_executable(example_recurrent_addition recurrent_addition/addition.cpp ${tiny_dnn_headers})
+target_link_libraries(example_recurrent_addition
+        ${project_library_target_name} ${REQUIRED_LIBRARIES})
+
+add_executable(example_train_char_rnn char_rnn/char_rnn.cpp ${tiny_dnn_headers})
+target_link_libraries(example_train_char_rnn
+        ${project_library_target_name} ${REQUIRED_LIBRARIES})
+
+add_executable(example_test_char_rnn char_rnn/test_char_rnn.cpp ${tiny_dnn_headers})
+target_link_libraries(example_test_char_rnn
+        ${project_library_target_name} ${REQUIRED_LIBRARIES})
+
+cotire(example_deconv_visual example_cifar_train example_cifar_test example_recurrent_addition example_train_char_rnn example_test_char_rnn)
+
 if(PROTO_CPP_AVAILABLE)
     include_directories(${PROTOBUF_INCLUDE_DIRS})
     set_source_files_properties(${proto_file} PROPERTIES GENERATED TRUE)
@@ -57,6 +73,7 @@ if(PROTO_CPP_AVAILABLE)
     target_link_libraries(example_caffe_converter
             ${project_library_target_name}
             ${PROTOBUF_LIBRARIES} ${REQUIRED_LIBRARIES})
+    cotire(example_caffe_converter)
 endif()
 
 if(PROTO_CPP_GENERATE)
